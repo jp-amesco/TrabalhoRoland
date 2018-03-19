@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<title>Trabalho do Roland</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" type="text/css" href="_style/estilo.css" />
+</head>
+<body>
+	<script src="_bibliotecagrafico/code/highcharts.js"></script>
+	<script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
+	<script src="_bibliotecagrafico/code/modules/exporting.js"></script>
+	<ul>
+		<li id="inicio"><a href="">Home</a></li>
+		<li id="dadosgrafico"><a href="">Dados a mostrar no gráfico</a>
+			<ul>
+				<li id="periodo"><a href="javascript:mostraform();">Período</a></li>
+				<li id="idade"><a href="">Idade</a></li>
+				<li id="estadoCivil"><a href="">Estado Civil</a></li>
+				<li id="pDeficiencia"><a href="">Portador de deficiencia</a></li>
+				<li id="tFilhos"><a href="">Tem Filhos</a></li>
+				<li id="qntFilhos"><a href="">Quantidade de Filhos</a></li>
+				<li id="municipio"><a href="">Município</a></li>
+				<li id="locomocao"><a href="">Locomoção</a></li>
+				<li id="moradia"><a href="">Moradia</a></li>
+				<li id="tempoMoradia"><a href="">Tempo de Moradia</a></li>
+				<li id="comQMora"><a href="">Com quem mora</a></li>
+				<li id="qntFamilia"><a href="">Quantidade na Família</a></li>
+				<li id="qntTrabalham"><a href="">Quantos Trabalham</a></li>
+				<li id="qntSMinimo"><a href="">Quantidade de Salário Minímo</a></li>
+				<li id="trabalho"><a href="">Trabalho</a></li>
+				<li id="peridoTrabalho"><a href="">Perído do trabalho</a></li>
+				<li id="vidaEscolar"><a href="">Vida escolar</a></li>
+				<li id="informatica"><a href="">Informática</a></li>
+				<li id="quaisCursos"><a href="">Quais cursos</a></li>
+				<li id="idioma"><a href="">Idioma</a></li>
+				<li id="fatec"><a href="">Ja estudou na FATEC</a></li>
+			</ul>
+		</li>
+	</ul>
+	<form id="formulario">
+		<p><label for="teste">Insira seu arquivo CSV<input type="file" name="testw" id="inputCSV" onchange="pegaCSV(this)" /></label></p>
+	</form>
+	<form id="selGrafico">
+		<p>Escolha o tipo de grafico
+		<select id="grafico" onchange="pie()">
+			<option >Pizza</option>
+			<option >Coluna</option>
+		</select></p>
+	</form>
+	<div id="container" ></div>
+	<script type="text/javascript">
+		function mostraform(){
+			document.getElementById('formulario').style.display = 'block';
+		}
+
+
+		var leitorDeCSV = new FileReader();
+		var curso = [];
+		var a = 0;
+		var b = 0;
+		window.onload = function init(){
+			leitorDeCSV.onload = leCSV
+		}
+
+		function pegaCSV(inputFile) {
+			var file = inputFile.files[0];
+			leitorDeCSV.readAsText(file);
+			document.getElementById('formulario').style.display = 'none';
+			document.getElementById('selGrafico').style.display = 'block';
+			document.getElementById('selGrafico').style.top = '0';
+		}
+
+		function leCSV(evt){
+			var fileArr = evt.target.result.split('\n');
+			fileArr.toString();
+			for (var i = 0; i<fileArr.length; i++){
+				var fileLine = fileArr[i].split(',');
+				for (var j = 0; j<fileLine.length; j++){
+					var x = fileLine[j];
+					if (j == 4) {
+						curso[i] = x;
+					}					
+				}
+			}
+			for (var w = 0; w<curso.length ; w++) {
+				if(curso[w] == '"MANHA"'){
+					a++;
+				}
+				else if(curso[w] == '"NOITE"'){
+					b++;
+				}
+			}
+			pie();
+		}	
+
+		function pie(){
+			var escolhaGrafico = document.getElementById('grafico').value;
+			if (escolhaGrafico == "Pizza") {
+				Highcharts.chart('container', {
+				    chart: {
+				        type: 'pie',
+				        options3d: {
+				            enabled: true,
+				            alpha: 45,
+				            beta: 0
+				        }
+				    },
+				    title: {
+				        text: 'Browser market shares at a specific website, 2014'
+				    },
+				    tooltip: {
+				        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				    },
+				    plotOptions: {
+				        pie: {
+				            allowPointSelect: true,
+				            cursor: 'pointer',
+				            depth: 35,
+				            dataLabels: {
+				                enabled: true,
+				                format: '{point.name}'
+				            }
+				        }
+				    },
+				    series: [{
+				        type: 'pie',
+				        name: 'Browser share',
+				        data: [
+				            ['Manhã', a],
+				            ['Noite', b],
+				        ]
+				    }]
+				});			
+			}
+			else if (escolhaGrafico == 'Coluna'){
+				Highcharts.chart('container', {
+				    chart: {
+				        type: 'column',
+				        options3d: {
+				            enabled: true,
+				            alpha: 10,
+				            beta: 25,
+				            depth: 70
+				        }
+				    },
+				    title: {
+				        text: 'Período de estudo'
+				    },
+				    subtitle: {
+				        text: ''
+				    },
+				    plotOptions: {
+				        column: {
+				            depth: 25
+				        }
+				    },
+				    xAxis: {
+				        categories: Highcharts.getOptions().lang.shortMonths,
+				        labels: {
+				            skew3d: true,
+				            style: {
+				                fontSize: '16px'
+				            }
+				        }
+				    },
+				    yAxis: {
+				        title: {
+				            text: null
+				        }
+				    },
+				    series: [{
+				        name: 'Noite',
+				        data: [a, b]
+				    }]
+				});
+			}
+		};
+	</script>
+
+</body>
+</html>
