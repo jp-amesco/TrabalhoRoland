@@ -9,55 +9,49 @@
 	<script src="_bibliotecagrafico/code/highcharts.js"></script>
 	<script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
 	<script src="_bibliotecagrafico/code/modules/exporting.js"></script>
-	<ul>
-		<li id="inicio"><a href="">Home</a></li>
-		<li id="dadosgrafico"><a href="">Dados a mostrar no gráfico</a>
-			<ul>
-				<li id="periodo"><a href="javascript:mostraform();">Período</a></li>
-				<li id="idade"><a href="">Idade</a></li>
-				<li id="estadoCivil"><a href="">Estado Civil</a></li>
-				<li id="pDeficiencia"><a href="">Portador de deficiencia</a></li>
-				<li id="tFilhos"><a href="">Tem Filhos</a></li>
-				<li id="qntFilhos"><a href="">Quantidade de Filhos</a></li>
-				<li id="municipio"><a href="">Município</a></li>
-				<li id="locomocao"><a href="">Locomoção</a></li>
-				<li id="moradia"><a href="">Moradia</a></li>
-				<li id="tempoMoradia"><a href="">Tempo de Moradia</a></li>
-				<li id="comQMora"><a href="">Com quem mora</a></li>
-				<li id="qntFamilia"><a href="">Quantidade na Família</a></li>
-				<li id="qntTrabalham"><a href="">Quantos Trabalham</a></li>
-				<li id="qntSMinimo"><a href="">Quantidade de Salário Minímo</a></li>
-				<li id="trabalho"><a href="">Trabalho</a></li>
-				<li id="peridoTrabalho"><a href="">Perído do trabalho</a></li>
-				<li id="vidaEscolar"><a href="">Vida escolar</a></li>
-				<li id="informatica"><a href="">Informática</a></li>
-				<li id="quaisCursos"><a href="">Quais cursos</a></li>
-				<li id="idioma"><a href="">Idioma</a></li>
-				<li id="fatec"><a href="">Ja estudou na FATEC</a></li>
-			</ul>
-		</li>
-	</ul>
+	<form id="formcoluna">
+		<p><label for="escolheColuna">Escolha os dados a ser mostrado pelo grafico
+		<select id="colunaescolhida" name="escolheColuna" onchange="teste()">
+			<option value="4">Período</option>
+			<option value="6">Idade</option>
+			<option value="7">Estado Civil</option>
+			<option value="8">Deficiencia</option>
+			<option value="10">Tem Filhos</option>
+			<option value="14">Município</option>
+			<option value="21">Locomoção</option>
+			<option value="22">Moradia</option>
+			<option value="24">Com quem mora</option>
+			<option value="25">Quantidade na Família</option>
+			<option value="26">Quantos Trabalham</option>
+			<option value="27">Quantidade de Salário Minímo</option>
+			<option value="28">Trabalho</option>
+			<option value="30">Vida escolar</option>
+			<option value="31">Informática</option>
+			<option value="33">Idioma</option>
+		</select></label></p>
+	</form>
 	<form id="formulario">
-		<p><label for="teste">Insira seu arquivo CSV<input type="file" name="testw" id="inputCSV" onchange="pegaCSV(this)" /></label></p>
+		<p><label for="coletaCSV">Insira seu arquivo CSV<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" /></label></p>
 	</form>
 	<form id="selGrafico">
 		<p>Escolha o tipo de grafico
-		<select id="grafico" onchange="pie()">
+		<select id="grafico" onchange="graphic()">
 			<option >Pizza</option>
 			<option >Coluna</option>
 		</select></p>
 	</form>
 	<div id="container" ></div>
 	<script type="text/javascript">
-		function mostraform(){
-			document.getElementById('formulario').style.display = 'block';
-		}
-
-
+		var colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+		var fileArr;
 		var leitorDeCSV = new FileReader();
-		var curso = [];
+		var fileColumn = [];
 		var a = 0;
 		var b = 0;
+		var c = 0;
+		var d = 0;
+		var dados1, dados2, dados3, dados4;
+
 		window.onload = function init(){
 			leitorDeCSV.onload = leCSV
 		}
@@ -65,35 +59,80 @@
 		function pegaCSV(inputFile) {
 			var file = inputFile.files[0];
 			leitorDeCSV.readAsText(file);
-			document.getElementById('formulario').style.display = 'none';
-			document.getElementById('selGrafico').style.display = 'block';
-			document.getElementById('selGrafico').style.top = '0';
 		}
 
 		function leCSV(evt){
-			var fileArr = evt.target.result.split('\n');
+			condicao();
+			fileArr = evt.target.result.split('\n');
 			fileArr.toString();
+			teste();
+		}		
+
+		function teste(){	
+			condicao();
+			a = 0;
+			b = 0;
+			c = 0;
+			d = 0;
 			for (var i = 0; i<fileArr.length; i++){
 				var fileLine = fileArr[i].split(',');
-				for (var j = 0; j<fileLine.length; j++){
-					var x = fileLine[j];
-					if (j == 4) {
-						curso[i] = x;
-					}					
-				}
-			}
-			for (var w = 0; w<curso.length ; w++) {
-				if(curso[w] == '"MANHA"'){
+				var x = fileLine[colunaescolhida];
+				if (x == dados1 && x != undefined) {
 					a++;
+					console.log("celula: " + x);
+					console.log("cont: " + a);
 				}
-				else if(curso[w] == '"NOITE"'){
+				else if(x == dados2 && x != undefined){
 					b++;
+					console.log("celula: " + x);
+					console.log("cont: " + b);
+				}
+				else if(x == dados3 && x != undefined){
+					c++;
+					console.log("celula: " + x);
+					console.log("cont: " + c);
+				}
+				else if(x == dados4 && x != undefined){
+					d++;
+					console.log("celula: " + x);
+					console.log("cont: " + d);
+				}
+				if (c == 0) {
+					c = null;
+					d = null;
+				}
+				else if(d == 0){
+					d == null;
 				}
 			}
-			pie();
+			graphic();
 		}	
 
-		function pie(){
+		function condicao(){
+			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+			if (colunaescolhida == 4){
+				dados1 = '"MANHA"';
+				dados2 = '"NOITE"';
+			}
+			else if ((colunaescolhida == 8) || (colunaescolhida == 10) || (colunaescolhida == 31)){
+				dados1 = '"NAO"';
+				dados2 = '"SIM"';
+			}
+			else if (colunaescolhida == 7) {
+				dados1 = '"SOLTEIRO(A)"';
+				dados2 = '"CASADO(A)"';
+				dados3 = '"OUTROS"';
+			}
+			else if (colunaescolhida == 6){
+				dados1 = "ate 20 anos";
+				dados2 = "de 21 a 30";
+				dados3 = "de 31 a 40";
+				dados4 = "acima de 40";
+			}
+
+		}
+
+		function graphic(){
 			var escolhaGrafico = document.getElementById('grafico').value;
 			if (escolhaGrafico == "Pizza") {
 				Highcharts.chart('container', {
@@ -126,11 +165,14 @@
 				        type: 'pie',
 				        name: 'Browser share',
 				        data: [
-				            ['Manhã', a],
-				            ['Noite', b],
+				            [dados1, a],
+				            [dados2, b],
+				            [dados3, c],
+				            [dados4, d],
 				        ]
 				    }]
-				});			
+				});		
+
 			}
 			else if (escolhaGrafico == 'Coluna'){
 				Highcharts.chart('container', {
@@ -170,7 +212,7 @@
 				    },
 				    series: [{
 				        name: 'Noite',
-				        data: [a, b]
+				        data: [a, b, c]
 				    }]
 				});
 			}
