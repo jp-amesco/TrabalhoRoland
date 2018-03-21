@@ -43,6 +43,7 @@
 	<div id="container" ></div>
 	<script type="text/javascript">
 		var colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+		var nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
 		var fileArr;
 		var leitorDeCSV = new FileReader();
 		var fileColumn = [];
@@ -50,7 +51,8 @@
 		var b = 0;
 		var c = 0;
 		var d = 0;
-		var dados1, dados2, dados3, dados4;
+		var dados1, dados2, dados3, dados4 = "";
+		
 
 		window.onload = function init(){
 			leitorDeCSV.onload = leCSV
@@ -79,23 +81,15 @@
 				var x = fileLine[colunaescolhida];
 				if (x == dados1 && x != undefined) {
 					a++;
-					console.log("celula: " + x);
-					console.log("cont: " + a);
 				}
 				else if(x == dados2 && x != undefined){
 					b++;
-					console.log("celula: " + x);
-					console.log("cont: " + b);
 				}
 				else if(x == dados3 && x != undefined){
 					c++;
-					console.log("celula: " + x);
-					console.log("cont: " + c);
 				}
 				else if(x == dados4 && x != undefined){
 					d++;
-					console.log("celula: " + x);
-					console.log("cont: " + d);
 				}
 				if (c == 0) {
 					c = null;
@@ -110,18 +104,24 @@
 
 		function condicao(){
 			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+			nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
 			if (colunaescolhida == 4){
 				dados1 = '"MANHA"';
 				dados2 = '"NOITE"';
+				dados3 = "";
+				dados4 = "";
 			}
 			else if ((colunaescolhida == 8) || (colunaescolhida == 10) || (colunaescolhida == 31)){
 				dados1 = '"NAO"';
 				dados2 = '"SIM"';
+				dados3 = "";
+				dados4 = false;
 			}
 			else if (colunaescolhida == 7) {
 				dados1 = '"SOLTEIRO(A)"';
 				dados2 = '"CASADO(A)"';
 				dados3 = '"OUTROS"';
+				dados4 = "";
 			}
 			else if (colunaescolhida == 6){
 				dados1 = "ate 20 anos";
@@ -186,7 +186,7 @@
 				        }
 				    },
 				    title: {
-				        text: 'Período de estudo'
+				        text: nomeSerie,
 				    },
 				    subtitle: {
 				        text: ''
@@ -197,7 +197,7 @@
 				        }
 				    },
 				    xAxis: {
-				        categories: Highcharts.getOptions().lang.shortMonths,
+				        categories: [dados1, dados2, dados3, dados4],
 				        labels: {
 				            skew3d: true,
 				            style: {
@@ -211,8 +211,8 @@
 				        }
 				    },
 				    series: [{
-				        name: 'Noite',
-				        data: [a, b, c]
+				        name: [nomeSerie],
+				        data: [a, b, c, d]
 				    }]
 				});
 			}
