@@ -17,17 +17,17 @@
 			<option value="7">Estado Civil</option>
 			<option value="8">Deficiencia</option>
 			<option value="10">Tem Filhos</option>
-			<option value="14">Município</option>
-			<option value="21">Locomoção</option>
-			<option value="22">Moradia</option>
-			<option value="24">Com quem mora</option>
-			<option value="25">Quantidade na Família</option>
-			<option value="26">Quantos Trabalham</option>
-			<option value="27">Quantidade de Salário Minímo</option>
-			<option value="28">Trabalho</option>
-			<option value="30">Vida escolar</option>
-			<option value="31">Informática</option>
-			<option value="33">Idioma</option>
+			<option value="15">Município</option>
+			<option value="22">Locomoção</option>
+			<option value="23">Moradia</option>
+			<option value="25">Com quem mora</option>
+			<option value="26">Quantidade na Família</option>
+			<option value="27">Quantos Trabalham</option>
+			<option value="28">Quantidade de Salário Minímo</option>
+			<option value="29">Trabalho</option>
+			<option value="31">Vida escolar</option>
+			<option value="32">Informática</option>
+			<option value="34">Idioma</option>
 		</select></label></p>
 	</form>
 	<form id="formulario">
@@ -47,11 +47,8 @@
 		var fileArr;
 		var leitorDeCSV = new FileReader();
 		var fileColumn = [];
-		var a = 0;
-		var b = 0;
-		var c = 0;
-		var d = 0;
-		var dados1, dados2, dados3, dados4 = "";
+		var valores = [];
+		var dados = [];
 		
 
 		window.onload = function init(){
@@ -64,73 +61,37 @@
 		}
 
 		function leCSV(evt){
-			condicao();
 			fileArr = evt.target.result.split('\n');
 			fileArr.toString();
 			teste();
 		}		
 
 		function teste(){	
-			condicao();
-			a = 0;
-			b = 0;
-			c = 0;
-			d = 0;
-			for (var i = 0; i<fileArr.length; i++){
+			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+			dados = [];
+			valores = [];
+			for (var i = 0; i<fileArr.length-1; i++){
 				var fileLine = fileArr[i].split(',');
-				var x = fileLine[colunaescolhida];
-				if (x == dados1 && x != undefined) {
-					a++;
+				var y = fileLine[colunaescolhida];
+				//tira aspas
+				if(y != null && y != "" && y != undefined){
+					var x = y.replace(/"/g, '');
 				}
-				else if(x == dados2 && x != undefined){
-					b++;
+				
+				if(dados.indexOf(x) == -1){
+					dados.push(x);
 				}
-				else if(x == dados3 && x != undefined){
-					c++;
+				
+				var indice = dados.indexOf(x);
+				if (valores[indice] == null) {
+					valores[indice] = 0;
 				}
-				else if(x == dados4 && x != undefined){
-					d++;
-				}
-				if (c == 0) {
-					c = null;
-					d = null;
-				}
-				else if(d == 0){
-					d == null;
-				}
+				
+				valores[indice]++;
 			}
+			
 			graphic();
 		}	
-
-		function condicao(){
-			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
-			nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
-			if (colunaescolhida == 4){
-				dados1 = '"MANHA"';
-				dados2 = '"NOITE"';
-				dados3 = "";
-				dados4 = "";
-			}
-			else if ((colunaescolhida == 8) || (colunaescolhida == 10) || (colunaescolhida == 31)){
-				dados1 = '"NAO"';
-				dados2 = '"SIM"';
-				dados3 = "";
-				dados4 = false;
-			}
-			else if (colunaescolhida == 7) {
-				dados1 = '"SOLTEIRO(A)"';
-				dados2 = '"CASADO(A)"';
-				dados3 = '"OUTROS"';
-				dados4 = "";
-			}
-			else if (colunaescolhida == 6){
-				dados1 = "ate 20 anos";
-				dados2 = "de 21 a 30";
-				dados3 = "de 31 a 40";
-				dados4 = "acima de 40";
-			}
-
-		}
 
 		function graphic(){
 			var escolhaGrafico = document.getElementById('grafico').value;
@@ -157,19 +118,14 @@
 				            depth: 35,
 				            dataLabels: {
 				                enabled: true,
-				                format: '{point.name}'
+				                format: dados
 				            }
 				        }
 				    },
 				    series: [{
 				        type: 'pie',
 				        name: 'Browser share',
-				        data: [
-				            [dados1, a],
-				            [dados2, b],
-				            [dados3, c],
-				            [dados4, d],
-				        ]
+				        data: valores,
 				    }]
 				});		
 
@@ -197,7 +153,7 @@
 				        }
 				    },
 				    xAxis: {
-				        categories: [dados1, dados2, dados3, dados4],
+				        categories: dados,
 				        labels: {
 				            skew3d: true,
 				            style: {
@@ -212,7 +168,7 @@
 				    },
 				    series: [{
 				        name: [nomeSerie],
-				        data: [a, b, c, d]
+				        data: valores
 				    }]
 				});
 			}
