@@ -12,22 +12,22 @@
 	<form id="formcoluna">
 		<p><label for="escolheColuna">Escolha os dados a ser mostrado pelo grafico
 		<select id="colunaescolhida" name="escolheColuna" onchange="teste()">
-			<option value="4">Período</option>
+			<option value="4">Período de estudo</option>
 			<option value="6">Idade</option>
 			<option value="7">Estado Civil</option>
-			<option value="8">Deficiencia</option>
+			<option value="8">Possui Deficiencia</option>
 			<option value="10">Tem Filhos</option>
-			<option value="15">Município</option>
-			<option value="22">Locomoção</option>
-			<option value="23">Moradia</option>
-			<option value="25">Com quem mora</option>
-			<option value="26">Quantidade na Família</option>
-			<option value="27">Quantos Trabalham</option>
-			<option value="28">Quantidade de Salário Minímo</option>
-			<option value="29">Trabalho</option>
-			<option value="31">Vida escolar</option>
-			<option value="32">Informática</option>
-			<option value="34">Idioma</option>
+			<option value="14">Município</option>
+			<option value="21">Locomoção</option>
+			<option value="22">Situação da Moradia</option>
+			<option value="24">Com quem mora</option>
+			<option value="25">Quantidade na Família</option>
+			<option value="26">Quantos Trabalham</option>
+			<option value="27">Quantidade de Salário Minímo</option>
+			<option value="28">Trabalho</option>
+			<option value="30">Vida escolar</option>
+			<option value="31">Tem conhecimento em Informática</option>
+			<option value="33">Fala outro idioma</option>
 		</select></label></p>
 	</form>
 	<form id="formulario">
@@ -64,24 +64,36 @@
 			fileArr = evt.target.result.split('\n');
 			fileArr.toString();
 			teste();
+
 		}		
 
 		function teste(){	
 			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
 			dados = [];
 			valores = [];
+			if (colunaescolhida > 12){
+				d = colunaescolhida + 1;
+			}
+			else{
+				d = colunaescolhida;
+			}
 			for (var i = 0; i<fileArr.length-1; i++){
 				var fileLine = fileArr[i].split(',');
-				var y = fileLine[colunaescolhida];
+				var y = fileLine[d];
+				
 				//tira aspas
 				if(y != null && y != "" && y != undefined){
 					var x = y.replace(/"/g, '');
 				}
-				
-				if(dados.indexOf(x) == -1){
-					dados.push(x);
+			
+				if(i == 0){
+
 				}
-				
+				else{
+					if(dados.indexOf(x) == -1){
+						dados.push(x);
+					}
+				}
 				var indice = dados.indexOf(x);
 				if (valores[indice] == null) {
 					valores[indice] = 0;
@@ -89,12 +101,14 @@
 				
 				valores[indice]++;
 			}
-			
 			graphic();
 		}	
+		
+
 
 		function graphic(){
 			var escolhaGrafico = document.getElementById('grafico').value;
+			nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
 			if (escolhaGrafico == "Pizza") {
 				Highcharts.chart('container', {
 				    chart: {
@@ -118,14 +132,14 @@
 				            depth: 35,
 				            dataLabels: {
 				                enabled: true,
-				                format: dados
+				                format: [dados]
 				            }
 				        }
 				    },
 				    series: [{
 				        type: 'pie',
 				        name: 'Browser share',
-				        data: valores,
+				        data:  valores,
 				    }]
 				});		
 
@@ -142,7 +156,7 @@
 				        }
 				    },
 				    title: {
-				        text: nomeSerie,
+				        text: "",
 				    },
 				    subtitle: {
 				        text: ''
