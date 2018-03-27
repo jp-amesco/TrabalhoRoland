@@ -71,35 +71,83 @@
 			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
 			dados = [];
 			valores = [];
+			data = [];
+			var indice = 0
 			if (colunaescolhida > 12){
 				d = colunaescolhida + 1;
 			}
 			else{
 				d = colunaescolhida;
 			}
+
+			// inicia leitura dos dados
 			for (var i = 0; i<fileArr.length-1; i++){
 				var fileLine = fileArr[i].split(',');
 				var y = fileLine[d];
+
+				//verifica se é coluna de idades e gera o array manualmente
+				if(d==6 && dados.length==0){
+					dados.push('até 20 anos','de 21 a 30 anos','de 31 a 40 anos','mais de 40 anos');
+				}
 				
 				//tira aspas
 				if(y != null && y != "" && y != undefined){
 					var x = y.replace(/"/g, '');
 				}
-			
+				//Não mostrar a primeira coluna
 				if(i == 0){
-
 				}
-				else{
+				//gera array de cabeçalho
+				else if(d != 6){
 					if(dados.indexOf(x) == -1){
 						dados.push(x);
 					}
+				}		
+
+				//gera array de valores
+				if(d==6){
+					
+					var age = x.split('/');
+					var hoje = new Date();
+					for(var j = 0; j < age.length; j++){
+						if (j == 0){
+							var aux = age[j];
+							age[j] = age[j + 1];
+							age[j + 1] = aux;
+						}
+					}
+					var nasc = new Date(age);
+					var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
+					var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365)); 
+
+					if(diffAge<21){
+						indice = 0;
+					}
+					else if(diffAge>=21 && diffAge<31){
+						indice = 1;
+					}
+					else if(diffAge>=31 && diffAge<41){
+						indice = 2;
+					}
+					else{
+						indice = 3;
+					}
 				}
-				var indice = dados.indexOf(x);
+				else{
+					indice = dados.indexOf(x);
+				}
 				if (valores[indice] == null) {
-					valores[indice] = 0;
-				}
-				
+						valores[indice] = 0;
+					}
 				valores[indice]++;
+			}
+
+			//gera array no formato data:value para printar no grafico
+			for(var i = 0; i<valores.length;i++){
+				data.push({
+					name: dados[i],
+					y: valores[i]
+				});
 			}
 			graphic();
 		}	
@@ -120,8 +168,7 @@
 				        }
 				    },
 				    title: {
-				        text: 'Browser market shares at a specific website, 2014'
-				    },
+				        text: nomeSerie,				    },
 				    tooltip: {
 				        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
 				    },
@@ -132,14 +179,14 @@
 				            depth: 35,
 				            dataLabels: {
 				                enabled: true,
-				                format: [dados]
+				                format: '{point.name}:{point.y}',
 				            }
 				        }
 				    },
 				    series: [{
 				        type: 'pie',
 				        name: 'Browser share',
-				        data:  valores,
+				        data:  data
 				    }]
 				});		
 
