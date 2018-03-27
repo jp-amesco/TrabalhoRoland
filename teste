@@ -1,0 +1,72 @@
+<!DOCTYPE html >
+        <img src="site-header2.png" id="centro">
+        
+<head>
+	<title>Menu Horizontal</title>
+	<style type="text/css">
+    
+        #centro {
+            width:1050px;
+            height:160px;
+            position:absolute;
+            top:50%;
+            left:50%;
+            margin-top:-320px;
+            margin-left:-550px;
+        }
+    
+		body {
+			padding:0px;
+			margin:0px;
+		}
+ 
+		#menu ul {
+			padding:0px;
+            margin:180px;
+			float: left 10;
+			width: 100%;
+			background-color:#EDEDED;
+			list-style:none;
+			font:120% Arial;
+		}
+ 
+		#menu ul li { display: inline; }
+ 
+		#menu ul li a {
+			background-color:#EDEDED;
+			color: #333;
+			text-decoration: none;
+			border-bottom:3px solid #EDEDED;
+			padding: 2px 10px;
+			float:left;
+		}
+ 
+		#menu ul li a:hover {
+			background-color:#D6D6D6;
+			color: #6D6D6D;
+			border-bottom:3px solid #EA0000;
+		}
+	
+	</style>
+</head>
+ 
+<body>
+        
+	<div id="menu">
+		<ul>
+			<li><a href="">Home</a></li>
+			<li><a href="">Sobre</a></li>
+            <li><a href="">Artigos</a></li>
+            <li><a href="">Vadejh</a></li>
+			<li><a href="">Andnj</a></li>
+            <li><a href="">Ajjd</a></li>
+            <li><a href="">Kdbdgdh</a></li>
+			<li><a href="">Ihfhfg</a></li>
+			<li><a href="">Ajdjdk</a></li>
+			
+		</ul>
+    </div>
+    
+    
+</body>
+</html>
