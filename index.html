@@ -1,240 +1,258 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-<head>
-	<title>Trabalho do Roland</title>
-	<meta charset="utf-8" />
-	<link rel="stylesheet" type="text/css" href="_style/estilo.css" />
-</head>
-<body>
-	<script src="_bibliotecagrafico/code/highcharts.js"></script>
-	<script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
-	<script src="_bibliotecagrafico/code/modules/exporting.js"></script>
-	<form id="formcoluna">
-		<p><label for="escolheColuna">Escolha os dados a ser mostrado pelo grafico
-		<select id="colunaescolhida" name="escolheColuna" onchange="teste()">
-			<option value="4">Período de estudo</option>
-			<option value="6">Idade</option>
-			<option value="7">Estado Civil</option>
-			<option value="8">Possui Deficiencia</option>
-			<option value="10">Tem Filhos</option>
-			<option value="14">Município</option>
-			<option value="21">Locomoção</option>
-			<option value="22">Situação da Moradia</option>
-			<option value="24">Com quem mora</option>
-			<option value="25">Quantidade na Família</option>
-			<option value="26">Quantos Trabalham</option>
-			<option value="27">Quantidade de Salário Minímo</option>
-			<option value="28">Trabalho</option>
-			<option value="30">Vida escolar</option>
-			<option value="31">Tem conhecimento em Informática</option>
-			<option value="33">Fala outro idioma</option>
-		</select></label></p>
-	</form>
-	<form id="formulario">
-		<p><label for="coletaCSV">Insira seu arquivo CSV<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" /></label></p>
-	</form>
-	<form id="selGrafico">
-		<p>Escolha o tipo de grafico
-		<select id="grafico" onchange="graphic()">
-			<option >Pizza</option>
-			<option >Coluna</option>
-		</select></p>
-	</form>
-	<div id="container" ></div>
-	<script type="text/javascript">
-		var colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
-		var nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
-		var fileArr;
-		var leitorDeCSV = new FileReader();
-		var fileColumn = [];
-		var valores = [];
-		var dados = [];
-		
 
-		window.onload = function init(){
-			leitorDeCSV.onload = leCSV
-		}
+<html>
 
-		function pegaCSV(inputFile) {
-			var file = inputFile.files[0];
-			leitorDeCSV.readAsText(file);
-		}
+  <head>
+    <meta charset="utf-8">
+    <meta name = "viewport" content = "width=device-widht,initial-scale=1.0">
+    <title>TRABALHO ENROLAND</title>
+    <link rel="stylesheet" type="text/css" href="_style/estilo.css">
+  <body bgcolor="d3d3d3">
+    <script src="_bibliotecagrafico/code/highcharts.js"></script>
+    <script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
+    <script src="_bibliotecagrafico/code/modules/exporting.js"></script>
+    <nav class = "menu">
+      <ul>  
+        <li><a href = "#">F A C U L D A D E D E T E C N O L O G I A</a></li>  
+      </ul>   
+      <div class="barra"></div>     
+    </nav>
+    <div class="quadfatec">
+        <img src="_images/site-header3.png" >
+      </div>
+    <nav class="main-nav">       
+      <ul class="main-nav-ul">                              
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Produtos<span class="sub-arrow"></span></a> 
+          <ul id="coluna">
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="4" href="#">Período</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="6" href="#">Idade</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="7" href="#">Estado Civil</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="8" href="#">Possui Deficiencia</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="10" href="#">Tem Filhos</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="14" href="#">Munícipio</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="21" href="#">Locomoção</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="22" href="#">Situação da Moradia</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="24" href="#">Com quem mora</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="25" href="#">Quantidade na Família</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="26" href="#">Quantos Trabalham</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="27" href="#">Quantidade de Salário Mínimo</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="28" href="#">Trabalho</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="30" href="#">Vida Escolar</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="31" href="#">Tem Conhecimento em informáticac</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="33" href="#">Fala outro idioma</a></li>      
+          </ul>
+        </li>    	
+        <li><a href="#">Serviços</a></li>
+        <li><a href="#">Sobre</a></li>
+        <li><a href="#">Contato</a></li>
+      </ul> 
+    </nav>  
+    <form id="formulario">
+      <p><label for="coletaCSV">Insira seu arquivo CSV<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" accept=".CSV" /></label></p>
+    </form>
+    <select id="grafico" onchange="graphic()">
+      <option >Pizza</option>
+      <option >Coluna</option>
+    </select></p>
+    <div id="container" ></div>
 
-		function leCSV(evt){
-			fileArr = evt.target.result.split('\n');
-			fileArr.toString();
-			teste();
+    <script type="text/javascript">
+      var colunaescolhida = 4;
+      var nomeSerie = "Período";
+      var fileArr;
+      var leitorDeCSV = new FileReader();
+      var fileColumn = [];
+      var valores = [];
+      var dados = [];
 
-		}		
+      function pegaInfo(id, conteudo){  
+        colunaescolhida = id;
+        nomeSerie = conteudo;
+        teste();
+      }      
 
-		function teste(){	
-			colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
-			dados = [];
-			valores = [];
-			data = [];
-			var indice = 0
-			if (colunaescolhida > 12){
-				d = colunaescolhida + 1;
-			}
-			else{
-				d = colunaescolhida;
-			}
+      window.onload = function init(){
+        leitorDeCSV.onload = leCSV
+      }
 
-			// inicia leitura dos dados
-			for (var i = 0; i<fileArr.length-1; i++){
-				var fileLine = fileArr[i].split(',');
-				var y = fileLine[d];
+      function pegaCSV(inputFile) {
+        var file = inputFile.files[0];
+        leitorDeCSV.readAsText(file);
+      }
 
-				//verifica se é coluna de idades e gera o array manualmente
-				if(d==6 && dados.length==0){
-					dados.push('até 20 anos','de 21 a 30 anos','de 31 a 40 anos','mais de 40 anos');
-				}
-				
-				//tira aspas
-				if(y != null && y != "" && y != undefined){
-					var x = y.replace(/"/g, '');
-				}
-				//Não mostrar a primeira coluna
-				if(i == 0){
-				}
-				//gera array de cabeçalho
-				else if(d != 6){
-					if(dados.indexOf(x) == -1){
-						dados.push(x);
-					}
-				}		
+      function leCSV(evt){
+        fileArr = evt.target.result.split('\n');
+        fileArr.toString();
+        teste();
+      }   
 
-				//gera array de valores
-				if(d==6){
-					
-					var age = x.split('/');
-					var hoje = new Date();
-					for(var j = 0; j < age.length; j++){
-						if (j == 0){
-							var aux = age[j];
-							age[j] = age[j + 1];
-							age[j + 1] = aux;
-						}
-					}
-					var nasc = new Date(age);
-					var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
-					var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365)); 
+      function teste(){ 
+        dados = [];
+        valores = [];
+        data = [];
+        var indice = 0
+        if (colunaescolhida > 12){
+          d = colunaescolhida + 1;
+        }
+        else{
+          d = colunaescolhida;
+        }
 
-					if(diffAge<21){
-						indice = 0;
-					}
-					else if(diffAge>=21 && diffAge<31){
-						indice = 1;
-					}
-					else if(diffAge>=31 && diffAge<41){
-						indice = 2;
-					}
-					else{
-						indice = 3;
-					}
-				}
-				else{
-					indice = dados.indexOf(x);
-				}
-				if (valores[indice] == null) {
-						valores[indice] = 0;
-					}
-				valores[indice]++;
-			}
+        // inicia leitura dos dados
+        for (var i = 0; i<fileArr.length-1; i++){
+          var fileLine = fileArr[i].split(',');
+          var y = fileLine[d];
 
-			//gera array no formato data:value para printar no grafico
-			for(var i = 0; i<valores.length;i++){
-				data.push({
-					name: dados[i],
-					y: valores[i]
-				});
-			}
-			graphic();
-		}	
-		
+          //verifica se é coluna de idades e gera o array manualmente
+          if(d==6 && dados.length==0){
+            dados.push('até 20 anos','de 21 a 30 anos','de 31 a 40 anos','mais de 40 anos');
+          }
+          
+          //tira aspas
+          if(y != null && y != "" && y != undefined){
+            var x = y.replace(/"/g, '');
+          }
+          //Não mostrar a primeira coluna
+          if(i == 0){
+          }
+          //gera array de cabeçalho
+          else if(d != 6){
+            if(dados.indexOf(x) == -1){
+              dados.push(x);
+            }
+          }   
+
+          //gera array de valores
+          if(d==6){
+            
+            var age = x.split('/');
+            var hoje = new Date();
+            for(var j = 0; j < age.length; j++){
+              if (j == 0){
+                var aux = age[j];
+                age[j] = age[j + 1];
+                age[j + 1] = aux;
+              }
+            }
+            var nasc = new Date(age);
+            var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
+            var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365)); 
+
+            if(diffAge<21){
+              indice = 0;
+            }
+            else if(diffAge>=21 && diffAge<31){
+              indice = 1;
+            }
+            else if(diffAge>=31 && diffAge<41){
+              indice = 2;
+            }
+            else{
+              indice = 3;
+            }
+          }
+          else{
+            indice = dados.indexOf(x);
+          }
+          if (valores[indice] == null) {
+              valores[indice] = 0;
+            }
+          valores[indice]++;
+        }
+
+        //gera array no formato data:value para printar no grafico
+        for(var i = 0; i<valores.length;i++){
+          data.push({
+            name: dados[i],
+            y: valores[i]
+          });
+        }
+        graphic();
+      } 
+      
 
 
-		function graphic(){
-			var escolhaGrafico = document.getElementById('grafico').value;
-			nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
-			if (escolhaGrafico == "Pizza") {
-				Highcharts.chart('container', {
-				    chart: {
-				        type: 'pie',
-				        options3d: {
-				            enabled: true,
-				            alpha: 45,
-				            beta: 0
-				        }
-				    },
-				    title: {
-				        text: nomeSerie,				    },
-				    tooltip: {
-				        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-				    },
-				    plotOptions: {
-				        pie: {
-				            allowPointSelect: true,
-				            cursor: 'pointer',
-				            depth: 35,
-				            dataLabels: {
-				                enabled: true,
-				                format: '{point.name}:{point.y}',
-				            }
-				        }
-				    },
-				    series: [{
-				        type: 'pie',
-				        name: 'Browser share',
-				        data:  data
-				    }]
-				});		
+      function graphic(){
+        var escolhaGrafico = document.getElementById('grafico').value;
+        if (escolhaGrafico == "Pizza") {
+          Highcharts.chart('container', {
+              chart: {
+                  type: 'pie',
+                  options3d: {
+                      enabled: true,
+                      alpha: 45,
+                      beta: 0
+                  }
+              },
+              title: {
+                  text: nomeSerie,            },
+              tooltip: {
+                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+              },
+              plotOptions: {
+                  pie: {
+                      allowPointSelect: true,
+                      cursor: 'pointer',
+                      depth: 35,
+                      dataLabels: {
+                          enabled: true,
+                          format: '{point.name}:{point.y}',
+                      }
+                  }
+              },
+              series: [{
+                  type: 'pie',
+                  name: 'Browser share',
+                  data:  data
+              }]
+          });   
 
-			}
-			else if (escolhaGrafico == 'Coluna'){
-				Highcharts.chart('container', {
-				    chart: {
-				        type: 'column',
-				        options3d: {
-				            enabled: true,
-				            alpha: 10,
-				            beta: 25,
-				            depth: 70
-				        }
-				    },
-				    title: {
-				        text: "",
-				    },
-				    subtitle: {
-				        text: ''
-				    },
-				    plotOptions: {
-				        column: {
-				            depth: 25
-				        }
-				    },
-				    xAxis: {
-				        categories: dados,
-				        labels: {
-				            skew3d: true,
-				            style: {
-				                fontSize: '16px'
-				            }
-				        }
-				    },
-				    yAxis: {
-				        title: {
-				            text: null
-				        }
-				    },
-				    series: [{
-				        name: [nomeSerie],
-				        data: valores
-				    }]
-				});
-			}
-		};
-	</script>
+        }
+        else if (escolhaGrafico == 'Coluna'){
+          Highcharts.chart('container', {
+              chart: {
+                  type: 'column',
+                  options3d: {
+                      enabled: true,
+                      alpha: 10,
+                      beta: 25,
+                      depth: 70
+                  }
+              },
+              title: {
+                  text: "",
+              },
+              subtitle: {
+                  text: ''
+              },
+              plotOptions: {
+                  column: {
+                      depth: 25
+                  }
+              },
+              xAxis: {
+                  categories: dados,
+                  labels: {
+                      skew3d: true,
+                      style: {
+                          fontSize: '16px'
+                      }
+                  }
+              },
+              yAxis: {
+                  title: {
+                      text: null
+                  }
+              },
+              series: [{
+                  name: [nomeSerie],
+                  data: valores
+              }]
+          });
+        }
+      };
 
-</body>
+    </script> 
+  </body>
 </html>
