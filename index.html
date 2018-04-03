@@ -34,15 +34,15 @@
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="21" href="#">Locomoção</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="22" href="#">Situação da Moradia</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="24" href="#">Com quem mora</a></li>
-            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="25" href="#">Quantidade na Família</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="25" href="#">Quantidade de pessoas na Família</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="26" href="#">Quantos Trabalham</a></li>
-            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="27" href="#">Quantidade de Salário Mínimo</a></li>
+            <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="27" href="#">Quantidade de Salários Mínimos</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="28" href="#">Trabalho</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="30" href="#">Vida Escolar</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="31" href="#">Tem Conhecimento em informáticac</a></li>
             <li ><a onclick="pegaInfo(this.id, this.firstChild.nodeValue)" id="33" href="#">Fala outro idioma</a></li>      
           </ul>
-        </li>    	
+        </li>     
         <li><a href="#">Serviços</a></li>
         <li><a href="#">Sobre</a></li>
         <li><a href="#">Contato</a></li>
@@ -52,10 +52,10 @@
       <p><label for="coletaCSV">Insira seu arquivo CSV<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" accept=".CSV" /></label></p>
     </form>
     <div id="selecionaGrafico">
-    	<p>
-    		<label for="Pizza"><input type="radio" name="tipoGrafico" value="Pizza" onchange="graphic()" checked>Pizza</label>
-    		<label for="Coluna"><input type="radio" name="tipoGrafico" value="Coluna" onchange="graphic()">Coluna</label>
-    	</p>
+      <p>
+        <label for="Pizza"><input type="radio" name="tipoGrafico" value="Pizza" onchange="graphic()" checked>Pizza</label>
+        <label for="Coluna"><input type="radio" name="tipoGrafico" value="Coluna" onchange="graphic()">Coluna</label>
+      </p>
     </div>
     <div id="container" ></div>
 </div>
@@ -96,6 +96,7 @@
         dados = [];
         valores = [];
         data = [];
+        lista_ra = [];
         var indice = 0
         if (colunaescolhida > 12){
           d = colunaescolhida + 1;
@@ -105,65 +106,122 @@
         }
 
         // inicia leitura dos dados
-        for (var i = 0; i<fileArr.length-1; i++){
+        for (var i = 1; i<fileArr.length-1; i++){
           var fileLine = fileArr[i].split(',');
-          var y = fileLine[d];
-
-          //verifica se é coluna de idades e gera o array manualmente
-          if(d==6 && dados.length==0){
-            dados.push('até 20 anos','de 21 a 30 anos','de 31 a 40 anos','mais de 40 anos');
-          }
-          
-          //tira aspas
-          if(y != null && y != "" && y != undefined){
-            var x = y.replace(/"/g, '');
-          }
-          //Não mostrar a primeira coluna
-          if(i == 0){
-          }
-          //gera array de cabeçalho
-          else if(d != 6){
-            if(dados.indexOf(x) == -1){
-              dados.push(x);
-            }
-          }   
-
-          //gera array de valores
-          if(d==6){
+          ra = fileLine[5];
+          if(lista_ra.indexOf(ra) == -1){
+            lista_ra.push(ra);
+            var y = fileLine[d];
             
-            var age = x.split('/');
-            var hoje = new Date();
-            for(var j = 0; j < age.length; j++){
-              if (j == 0){
-                var aux = age[j];
-                age[j] = age[j + 1];
-                age[j + 1] = aux;
-              }
+            //tira aspas
+            if(y != null && y != "" && y != undefined){
+              var x = y.replace(/"/g, '');
             }
-            var nasc = new Date(age);
-            var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
-            var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365)); 
-
-            if(diffAge<21){
-              indice = 0;
+            //Gera array dos cabeçalhos 
+            if(d==6 && dados.length==0){
+              dados.push('Até 20 anos ','De 21 a 30 anos ','De 31 a 40 anos ','Mais de 40 anos ');
             }
-            else if(diffAge>=21 && diffAge<31){
-              indice = 1;
+            else if(d==26 && dados.length==0){
+              dados.push('Um ','Dois ','Três ','Quatro ','Cinco ','Seis ','Mais que seis ');
             }
-            else if(diffAge>=31 && diffAge<41){
-              indice = 2;
+            else if(d==27 && dados.length==0){
+              dados.push('Ninguém ','Um ','Dois ','Três ', 'Quatro ','Cinco ','Mais que cinco ');
+            }
+            else if(d==28 && dados.length==0){
+              dados.push('Um ','Dois ','Três ', 'Quatro ','Cinco ','Mais que cinco ');
             }
             else{
-              indice = 3;
+              if(dados.indexOf(x) == -1){
+                dados.push(x);
+              }
+            }   
+
+            //gera array de valores
+            if(d==6){
+              
+              var age = x.split('/');
+              var hoje = new Date();
+              for(var j = 0; j < age.length; j++){
+                if (j == 0){
+                  var aux = age[j];
+                  age[j] = age[j + 1];
+                  age[j + 1] = aux;
+                }
+              }
+              var nasc = new Date(age);
+              var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
+              var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365)); 
+
+              if(diffAge<21){
+                indice = 0;
+              }
+              else if(diffAge>=21 && diffAge<31){
+                indice = 1;
+              }
+              else if(diffAge>=31 && diffAge<41){
+                indice = 2;
+              }
+              else{
+                indice = 3;
+              }
             }
-          }
-          else{
-            indice = dados.indexOf(x);
-          }
-          if (valores[indice] == null) {
-              valores[indice] = 0;
+            else if(d==26){
+              if(x=='1')
+                indice = 0;
+              else if(x=='2')
+                indice = 1;
+              else if(x=='3')
+                indice = 2;
+              else if(x=='4')
+                indice = 3;
+              else if(x=='5')
+                indice = 4;
+              else if(x=='6')
+                indice = 5;
+              else
+                indice = 6;
+              console.log(indice + ": " +ra)
             }
-          valores[indice]++;
+            else if(d==27){
+              if(x=='NINGUEM')
+                indice = 0;
+              else if(x=='1')
+                indice = 1;
+              else if(x=='2')
+                indice = 2;
+              else if(x=='3')
+                indice = 3;
+              else if(x=='4')
+                indice = 4;
+              else if(x=='5')
+                indice = 5;
+              else 
+                indice = 6;
+            }
+            else if(d==28){
+              if(x=='1')
+                indice = 0;
+              else if(x=='2')
+                indice = 1;
+              else if(x=='3')
+                indice = 2;
+              else if(x=='4')
+                indice = 3;
+              else if(x=='5')
+                indice = 4;
+              else if(x=='6')
+                indice = 5;
+              else 
+                indice = 6;
+            }
+            else{ 
+              indice = dados.indexOf(x);
+            }
+            if (valores[indice] == null) {
+                valores[indice] = 0;
+              }
+            valores[indice]++;
+          }
         }
 
         //gera array no formato data:value para printar no grafico
