@@ -7,16 +7,15 @@
     <meta name = "viewport" content = "width=device-widht,initial-scale=1.0">
     <title>Perfil Sócio Econômico</title>
     <link rel="stylesheet" type="text/css" href="_style/estilo.css">
-  <body bgcolor="d3d3d3">
+
+  <body>
     <script src="_bibliotecagrafico/code/highcharts.js"></script>
     <script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
     <script src="_bibliotecagrafico/code/modules/exporting.js"></script>
     <div class="barra">
-	    <nav class = "menu">
-	      <ul>  
-	        <li><a href = "#">F A C U L D A D E D E T E C N O L O G I A</a></li>  
-	      </ul>       
-	    </nav>
+	    <div class = "titulo">
+	        <p>P E R F I L S Ó C I O E C O N Ô M I C O</p>
+	    </div>
 	    <div class="quadfatec">
 	        <img src="_images/site-header3.png" >
 	    </div>
@@ -24,6 +23,7 @@
 	      <ul class="main-nav-ul">                              
 	        <li><a href="#" onclick="Home()">Home</a></li>     
 	        <li><a href="#" onclick="ApareceBtn()">Importar Arquivo CSV</a></li>
+	        <li><a href="#" onclick="criaTabela()">Tabela</a></li>
 	      </ul> 
 	    </nav>  
 	    <p><label for="inputCSV" id="btnCSV">Importar<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" accept=".CSV" /></label></p>
@@ -37,27 +37,28 @@
 	    	<select id="colunaescolhida" name="escolheColuna" onchange="teste()">
 				<option value="4">Período de estudo</option>
 				<option value="6">Idade</option>
-				<option value="7">Estado Civil</option>
-				<option value="8">Possui Deficiencia</option>
-				<option value="10">Tem Filhos</option>
+				<option value="7">Estado civil</option>
+				<option value="8">Possui deficiência</option>
+				<option value="10">Tem filhos</option>
 				<option value="14">Município</option>
 				<option value="21">Locomoção</option>
-				<option value="22">Situação da Moradia</option>
+				<option value="22">Situação da moradia</option>
 				<option value="24">Com quem mora</option>
-				<option value="25">Quantidade na Família</option>
-				<option value="26">Quantos Trabalham</option>
-				<option value="27">Quantidade de Salário Minímo</option>
+				<option value="25">Quantidade na família</option>
+				<option value="26">Quantos trabalham</option>
+				<option value="27">Quantidade de salário mínimo</option>
 				<option value="28">Trabalho</option>
 				<option value="30">Vida escolar</option>
-				<option value="31">Tem conhecimento em Informática</option>
+				<option value="31">Tem conhecimento em informática</option>
 				<option value="33">Fala outro idioma</option>
 			</select>
 		</div>
 	    <div id="container" ></div>
 	    <div id="PInicial">
-		    <p id="BoasVindas">Seja bem-vindo ao nosso site</p>
+		    <p id="BoasVindas">Seja Bem-Vindo</p>
 		    <p id="Info">Para começar clique em IMPORTAR ARQUIVO CSV</p>
 		</div>
+		<div id="table"></div>
 	</div>
 
     <script type="text/javascript">
@@ -68,21 +69,24 @@
       var fileColumn = [];
       var valores = [];
       var dados = [];
+      var cabecalhomod = [];
 
       function Home(){
+      	document.getElementById('table').style.display = "none";
       	document.getElementById('btnCSV').style.display = "none";
       	document.getElementById('container').style.display = 'block';
       	document.getElementById('selecionaGrafico').style.display = "block";
       	document.getElementById('select-estiloso').style.display = "block";
+      	document.getElementById('PInicial').style.display = "none";
       }
 
       function ApareceBtn(){
+      	document.getElementById('table').style.display = "none";
       	document.getElementById('btnCSV').style.display = 'block';
       	document.getElementById('container').style.display = 'none';
       	document.getElementById('selecionaGrafico').style.display = "none";
       	document.getElementById('select-estiloso').style.display = "none";
       	document.getElementById('PInicial').style.display = "none";
-
       }    
 
       window.onload = function init(){
@@ -103,6 +107,52 @@
         document.getElementById('container').style.display = "block";
         document.getElementById('select-estiloso').style.display = "block";
       }   
+
+      function criaTabela(){
+      	
+      	cabecalhomod = ["NOME", "CURSO", "PERÍODO DE ESTUDO", "R.A.", "DATA DE NASCIMENTO", "ESTADO CIVIL", "POSSUI DEFICIÊNCIA", "QUAL DEFICIÊNCIA", "TEM FILHOS", "QUANTIDADE DE FILHOS", "LOGRADOURO","NÚMERO DA MORADIA", "BAIRRO", "MUNICÍPIO", "ESTADO", "CEP", "TEL. RESIDENCIAL", "CELULAR", "TEL. RECADO", "E-MAIL", "LOCOMOÇÃO", "SITUAÇÃO DA MORADIA", "TEMPO NA MESMA MORADIA", "COM QUE MORA", "QUANTIDADE NA FAMÍLIA", "QUANTOS TRABALHAM", "QUANTIDADE DE SALÁRIOS MÍNIMO", "TRABALHO", "PERÍODO DE TRABALHO", "VIDA ESCOLAR", "TEM CONHECIMENTO EM INFORMÁTICA", "O QUE CONHECE EM INFORMÁTICA", "FALA OUTRO IDIOMA", "QUAL IDIOMA", "JÁ ESTUDOU NA FATEC", "QUA ANO", "QUAL CURSO", "QUAL ANO", "QUAL CURSO", "MOTIVO PELO QUAL PRESTOU O VESTIBULAR"];
+      	var tabela = document.createElement("table");
+				var cabecalho = document.createElement("thead");
+				var corpo = document.createElement("tbody");
+				fileArr.toString();
+      	for (var i = 0; i<fileArr.length; i++){
+        	var fileLine = fileArr[i].split(',');
+        	var linha = document.createElement("tr");
+        	if (fileLine.length == 41) {
+        		fileLine.push("");
+        	}
+					for(var j = 2; j < fileLine.length; j++){
+						if(i == 0){
+							var coluna = document.createElement("th");
+							var texto = document.createTextNode(cabecalhomod[j - 2]);
+						}
+						else if(j < 42){
+							var coluna = document.createElement("td");
+							var semaspas = fileLine[j].replace(/"/g, '');
+							var texto = document.createTextNode(semaspas);
+						}
+						console.log(fileLine);
+						coluna.appendChild(texto);
+						linha.appendChild(coluna);
+					}
+					if (i == 0) {
+						cabecalho.appendChild(linha);
+					}
+					else{
+						corpo.appendChild(linha);
+					}
+				}
+				tabela.appendChild(cabecalho);
+				tabela.appendChild(corpo);
+
+				document.getElementById('table').appendChild(tabela);  
+				document.getElementById('table').style.display = "block";
+				document.getElementById('btnCSV').style.display = "none";
+      	document.getElementById('container').style.display = 'none';
+      	document.getElementById('selecionaGrafico').style.display = "none";
+      	document.getElementById('select-estiloso').style.display = "none";
+      	document.getElementById('PInicial').style.display = "none";
+      }
 
       function teste(){ 
         //Reinicia as variáveis
@@ -134,16 +184,16 @@
             }
             //Gera array dos cabeçalhos 
             if(d==6 && dados.length==0){
-              dados.push('Até 20 anos ','De 21 a 30 anos ','De 31 a 40 anos ','Mais de 40 anos ');
+              dados.push('ATÉ 20 ANOS ','DE 21 A 30 ANOS ','DE 31 A 40 ANOS ','MAIS DE 40 ANOS ');
             }
             else if(d==26 && dados.length==0){
-              dados.push('Um ','Dois ','Três ','Quatro ','Cinco ','Seis ','Mais que seis ');
+              dados.push('UM ','DOIS ','TRÊS ','QUATRO ','CINCO ','SEIS ','MAIS QUE SEIS ');
             }
             else if(d==27 && dados.length==0){
-              dados.push('Ninguém ','Um ','Dois ','Três ', 'Quatro ','Cinco ','Mais que cinco ');
+              dados.push('NINGUÉM ','UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
             }
             else if(d==28 && dados.length==0){
-              dados.push('Um ','Dois ','Três ', 'Quatro ','Cinco ','Mais que cinco ');
+              dados.push('UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
             }
             else{
               if(dados.indexOf(x) == -1){
