@@ -2,125 +2,128 @@
 
 <html>
 
-  <head>
-    <meta charset="utf-8">
-    <meta name = "viewport" content = "width=device-widht,initial-scale=1.0">
-    <title>Perfil Sócio Econômico</title>
-    <link rel="stylesheet" type="text/css" href="_style/estilo.css">
-
-  <body>
-    <script src="_bibliotecagrafico/code/highcharts.js"></script>
-    <script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
-    <script src="_bibliotecagrafico/code/modules/exporting.js"></script>
-    <div class="barra">
-	    <div class = "titulo">
-	        <p>P E R F I L S Ó C I O E C O N Ô M I C O</p>
-	    </div>
-	    <div class="quadfatec">
-	        <img src="_images/site-header3.png" >
-	    </div>
-	    <nav class="main-nav">       
-	      <ul class="main-nav-ul">                              
-	        <li><a href="#" onclick="Home()">Home</a></li>     
-	        <li><a href="#" onclick="ApareceBtn()">Importar Arquivo CSV</a></li>
-	        <li><a href="#" onclick="criaTabela()">Tabela</a></li>
-	      </ul> 
-	    </nav>  
-	    <p><label for="inputCSV" id="btnCSV">Importar<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" accept=".CSV" /></label></p>
-	    <div id="selecionaGrafico">
-	      <p>
-	        <label for="Pizza"><input type="radio" name="tipoGrafico" id="Pizza" value="Pizza" onchange="graphic()" checked>Pizza</label>
-	        <label for="Coluna"><input type="radio" name="tipoGrafico" id="Coluna" value="Coluna" onchange="graphic()">Coluna</label>
-	      </p>
-	    </div>
-	    <div id="select-estiloso">
-	    	<select id="colunaescolhida" name="escolheColuna" onchange="teste()">
-				<option value="4">Período de estudo</option>
-				<option value="6">Idade</option>
-				<option value="7">Estado civil</option>
-				<option value="8">Possui deficiência</option>
-				<option value="10">Tem filhos</option>
-				<option value="14">Município</option>
-				<option value="21">Locomoção</option>
-				<option value="22">Situação da moradia</option>
-				<option value="24">Com quem mora</option>
-				<option value="25">Quantidade na família</option>
-				<option value="26">Quantos trabalham</option>
-				<option value="27">Quantidade de salário mínimo</option>
-				<option value="28">Trabalho</option>
-				<option value="30">Vida escolar</option>
-				<option value="31">Tem conhecimento em informática</option>
-				<option value="33">Fala outro idioma</option>
-			</select>
+	<head>
+    	<meta charset="utf-8">
+    	<meta name = "viewport" content = "width=device-widht,initial-scale=1.0">
+    	<title>Perfil Sócio Econômico</title>
+    	<link rel="stylesheet" type="text/css" href="_style/estilo.css">
+    </head>	
+  	<body>
+    	<script src="_bibliotecagrafico/code/highcharts.js"></script>
+    	<script src="_bibliotecagrafico/code/highcharts-3d.js"></script>
+    	<script src="_bibliotecagrafico/code/modules/exporting.js"></script>
+    	<div class="barra">
+	    	<div class = "titulo">
+	        	<p>PERFIL SÓCIO ECONÔMICO</p>
+	    	</div>
+	    	<div class="quadfatec">
+	        	<img src="_images/site-header3.png" >
+	    	</div>
+	    	<nav class="main-nav">       
+	      	<ul class="main-nav-ul">                              
+	        		<li><a href="#" onclick="Home()">Home</a></li>     
+	        		<li><a href="#" onclick="ApareceBtn()">Importar Arquivo CSV</a></li>
+	        		<li><a href="#" onclick="criaTabela()">Tabela</a></li>
+	      	</ul> 
+	    	</nav>  
+	    	<p><label for="inputCSV" id="btnCSV">Importar<input type="file" name="coletaCSV" id="inputCSV" onchange="pegaCSV(this)" accept=".CSV" /></label></p>
+	    	<div id="selecionaGrafico">
+	    		<p id="tiposGraficos">Tipos de Gráficos</p>
+	      	<p>
+	       		<label for="Pizza"><input type="radio" name="tipoGrafico" id="Pizza" value="Pizza" onchange="graphic()" checked>Pizza</label>
+	        		<label for="Coluna"><input type="radio" name="tipoGrafico" id="Coluna" value="Coluna" onchange="graphic()">Coluna</label>
+	      	</p>
+	    	</div>
+	    	<div id="dadosGrafico">
+	    		<p>Dados do Gráfico</p>
+		    	<div id="select-estiloso">
+		    		<select id="colunaescolhida" name="escolheColuna" onchange="principal()">
+						<option value="4">Período de estudo</option>
+						<option value="6">Idade</option>
+						<option value="7">Estado civil</option>
+						<option value="8">Possui deficiência</option>
+						<option value="10">Tem filhos</option>
+						<option value="14">Município</option>
+						<option value="21">Locomoção</option>
+						<option value="22">Situação da moradia</option>
+						<option value="24">Com quem mora</option>
+						<option value="25">Quantidade na família</option>
+						<option value="26">Quantos trabalham</option>
+						<option value="27">Quantidade de salário mínimo</option>
+						<option value="28">Trabalho</option>
+						<option value="30">Vida escolar</option>
+						<option value="31">Tem conhecimento em informática</option>
+						<option value="33">Fala outro idioma</option>
+					</select>
+				</div>
+			</div>
+	    	<div id="container" ></div>
+	    	<div id="PInicial">
+		   	<p id="BoasVindas">Seja Bem-Vindo</p>
+		    	<p id="Info">Para começar clique em IMPORTAR ARQUIVO CSV</p>
+			</div>
+			<div id="table"></div>
 		</div>
-	    <div id="container" ></div>
-	    <div id="PInicial">
-		    <p id="BoasVindas">Seja Bem-Vindo</p>
-		    <p id="Info">Para começar clique em IMPORTAR ARQUIVO CSV</p>
-		</div>
-		<div id="table"></div>
-	</div>
+		<script type="text/javascript">
+      	var colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+      	var nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
+      	var fileArr;
+      	var leitorDeCSV = new FileReader();
+      	var fileColumn = [];
+      	var valores = [];
+      	var dados = [];
+      	var cabecalhomod = [];
 
-    <script type="text/javascript">
-      var colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
-      var nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
-      var fileArr;
-      var leitorDeCSV = new FileReader();
-      var fileColumn = [];
-      var valores = [];
-      var dados = [];
-      var cabecalhomod = [];
+	      function Home(){
+	      	document.getElementById('table').style.display = "none";
+	      	document.getElementById('btnCSV').style.display = "none";
+	      	document.getElementById('container').style.display = 'block';
+	      	document.getElementById('selecionaGrafico').style.display = "block";
+	      	document.getElementById('dadosGrafico').style.display = "block";
+	      	document.getElementById('PInicial').style.display = "none";
+	      }
 
-      function Home(){
-      	document.getElementById('table').style.display = "none";
-      	document.getElementById('btnCSV').style.display = "none";
-      	document.getElementById('container').style.display = 'block';
-      	document.getElementById('selecionaGrafico').style.display = "block";
-      	document.getElementById('select-estiloso').style.display = "block";
-      	document.getElementById('PInicial').style.display = "none";
-      }
+	      function ApareceBtn(){
+	      	document.getElementById('table').style.display = "none";
+	      	document.getElementById('btnCSV').style.display = 'block';
+	      	document.getElementById('container').style.display = 'none';
+	      	document.getElementById('selecionaGrafico').style.display = "none";
+	      	document.getElementById('dadosGrafico').style.display = "none";
+	      	document.getElementById('PInicial').style.display = "none";
+	      }    
 
-      function ApareceBtn(){
-      	document.getElementById('table').style.display = "none";
-      	document.getElementById('btnCSV').style.display = 'block';
-      	document.getElementById('container').style.display = 'none';
-      	document.getElementById('selecionaGrafico').style.display = "none";
-      	document.getElementById('select-estiloso').style.display = "none";
-      	document.getElementById('PInicial').style.display = "none";
-      }    
+	      window.onload = function init(){
+	        leitorDeCSV.onload = leCSV
+	      }
 
-      window.onload = function init(){
-        leitorDeCSV.onload = leCSV
-      }
+	      function pegaCSV(inputFile) {
+	        var file = inputFile.files[0];
+	        leitorDeCSV.readAsText(file);
+	      }
 
-      function pegaCSV(inputFile) {
-        var file = inputFile.files[0];
-        leitorDeCSV.readAsText(file);
-      }
+	      function leCSV(evt){
+	        fileArr = evt.target.result.split('\n');
+	        fileArr.toString();
+	        principal();
+	        document.getElementById('btnCSV').style.display = "none";
+	        document.getElementById('selecionaGrafico').style.display = "block";
+	        document.getElementById('container').style.display = "block";
+	        document.getElementById('dadosGrafico').style.display = "block";
+	      }   
 
-      function leCSV(evt){
-        fileArr = evt.target.result.split('\n');
-        fileArr.toString();
-        teste();
-        document.getElementById('btnCSV').style.display = "none";
-        document.getElementById('selecionaGrafico').style.display = "block";
-        document.getElementById('container').style.display = "block";
-        document.getElementById('select-estiloso').style.display = "block";
-      }   
-
-      function criaTabela(){
-      	
-      	cabecalhomod = ["NOME", "CURSO", "PERÍODO DE ESTUDO", "R.A.", "DATA DE NASCIMENTO", "ESTADO CIVIL", "POSSUI DEFICIÊNCIA", "QUAL DEFICIÊNCIA", "TEM FILHOS", "QUANTIDADE DE FILHOS", "LOGRADOURO","NÚMERO DA MORADIA", "BAIRRO", "MUNICÍPIO", "ESTADO", "CEP", "TEL. RESIDENCIAL", "CELULAR", "TEL. RECADO", "E-MAIL", "LOCOMOÇÃO", "SITUAÇÃO DA MORADIA", "TEMPO NA MESMA MORADIA", "COM QUE MORA", "QUANTIDADE NA FAMÍLIA", "QUANTOS TRABALHAM", "QUANTIDADE DE SALÁRIOS MÍNIMO", "TRABALHO", "PERÍODO DE TRABALHO", "VIDA ESCOLAR", "TEM CONHECIMENTO EM INFORMÁTICA", "O QUE CONHECE EM INFORMÁTICA", "FALA OUTRO IDIOMA", "QUAL IDIOMA", "JÁ ESTUDOU NA FATEC", "QUA ANO", "QUAL CURSO", "QUAL ANO", "QUAL CURSO", "MOTIVO PELO QUAL PRESTOU O VESTIBULAR"];
-      	var tabela = document.createElement("table");
+	      function criaTabela(){
+	      	
+	      	cabecalhomod = ["NOME", "CURSO", "PERÍODO DE ESTUDO", "R.A.", "DATA DE NASCIMENTO", "ESTADO CIVIL", "POSSUI DEFICIÊNCIA", "QUAL DEFICIÊNCIA", "TEM FILHOS", "QUANTIDADE DE FILHOS", "LOGRADOURO","NÚMERO DA MORADIA", "BAIRRO", "MUNICÍPIO", "ESTADO", "CEP", "TEL. RESIDENCIAL", "CELULAR", "TEL. RECADO", "E-MAIL", "LOCOMOÇÃO", "SITUAÇÃO DA MORADIA", "TEMPO NA MESMA MORADIA", "COM QUE MORA", "QUANTIDADE NA FAMÍLIA", "QUANTOS TRABALHAM", "QUANTIDADE DE SALÁRIOS MÍNIMO", "TRABALHO", "PERÍODO DE TRABALHO", "VIDA ESCOLAR", "TEM CONHECIMENTO EM INFORMÁTICA", "O QUE CONHECE EM INFORMÁTICA", "FALA OUTRO IDIOMA", "QUAL IDIOMA", "JÁ ESTUDOU NA FATEC", "QUA ANO", "QUAL CURSO", "QUAL ANO", "QUAL CURSO", "MOTIVO PELO QUAL PRESTOU O VESTIBULAR"];
+	      	var tabela = document.createElement("table");
 				var cabecalho = document.createElement("thead");
 				var corpo = document.createElement("tbody");
 				fileArr.toString();
-      	for (var i = 0; i<fileArr.length; i++){
-        	var fileLine = fileArr[i].split(',');
-        	var linha = document.createElement("tr");
-        	if (fileLine.length == 41) {
-        		fileLine.push("");
-        	}
+	      	for (var i = 0; i<fileArr.length; i++){
+	        		var fileLine = fileArr[i].split(',');
+	        		var linha = document.createElement("tr");
+	        		if (fileLine.length == 41) {
+	        			fileLine.push("");
+	        		}
 					for(var j = 2; j < fileLine.length; j++){
 						if(i == 0){
 							var coluna = document.createElement("th");
@@ -131,7 +134,6 @@
 							var semaspas = fileLine[j].replace(/"/g, '');
 							var texto = document.createTextNode(semaspas);
 						}
-						console.log(fileLine);
 						coluna.appendChild(texto);
 						linha.appendChild(coluna);
 					}
@@ -148,237 +150,236 @@
 				document.getElementById('table').appendChild(tabela);  
 				document.getElementById('table').style.display = "block";
 				document.getElementById('btnCSV').style.display = "none";
-      	document.getElementById('container').style.display = 'none';
-      	document.getElementById('selecionaGrafico').style.display = "none";
-      	document.getElementById('select-estiloso').style.display = "none";
-      	document.getElementById('PInicial').style.display = "none";
-      }
+	      	document.getElementById('container').style.display = 'none';
+	      	document.getElementById('selecionaGrafico').style.display = "none";
+	      	document.getElementById('dadosGrafico').style.display = "none";
+	      	document.getElementById('PInicial').style.display = "none";
+	      }
 
-      function teste(){ 
-        //Reinicia as variáveis
-        colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
-        dados = [];
-        valores = [];
-        data = [];
-        lista_ra = [];
-        //Corrige as colunas
-        var indice = 0
-        if (colunaescolhida > 12){
-          d = colunaescolhida + 1;
-        }
-        else{
-          d = colunaescolhida;
-        }
+	      function principal(){ 
+      		//Reinicia as variáveis
+        		colunaescolhida = parseInt(document.getElementById('colunaescolhida').value);
+        		dados = [];
+        		valores = [];
+        		data = [];
+        		lista_ra = [];
+        		//Corrige as colunas
+        		var indice = 0
+	        	if (colunaescolhida > 12){
+	         	d = colunaescolhida + 1;
+	        	}
+	        	else{
+	         	d = colunaescolhida;
+	        	}
 
-        // inicia leitura dos dados
-        for (var i = 1; i<fileArr.length-1; i++){
-          var fileLine = fileArr[i].split(',');
-          ra = fileLine[5];
-          if(lista_ra.indexOf(ra) == -1){
-            lista_ra.push(ra);
-            var y = fileLine[d];
-            
-            //tira aspas
-            if(y != null && y != "" && y != undefined){
-              var x = y.replace(/"/g, '');
-            }
-            //Gera array dos cabeçalhos 
-            if(d==6 && dados.length==0){
-              dados.push('ATÉ 20 ANOS ','DE 21 A 30 ANOS ','DE 31 A 40 ANOS ','MAIS DE 40 ANOS ');
-            }
-            else if(d==26 && dados.length==0){
-              dados.push('UM ','DOIS ','TRÊS ','QUATRO ','CINCO ','SEIS ','MAIS QUE SEIS ');
-            }
-            else if(d==27 && dados.length==0){
-              dados.push('NINGUÉM ','UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
-            }
-            else if(d==28 && dados.length==0){
-              dados.push('UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
-            }
-            else{
-              if(dados.indexOf(x) == -1){
-                dados.push(x);
-              }
-            }   
+	        	// inicia leitura dos dados
+	        	for (var i = 1; i<fileArr.length-1; i++){
+	         	var fileLine = fileArr[i].split(',');
+	          	ra = fileLine[5];
+	          	if(lista_ra.indexOf(ra) == -1){
+	            	lista_ra.push(ra);
+	            	var y = fileLine[d];
+	            
+	            //tira aspas
+	            if(y != null && y != "" && y != undefined){
+	            	var x = y.replace(/"/g, '');
+	            }
+	            //Gera array dos cabeçalhos 
+	            if(d==6 && dados.length==0){
+	              dados.push('ATÉ 20 ANOS ','DE 21 A 30 ANOS ','DE 31 A 40 ANOS ','MAIS DE 40 ANOS ');
+	            }
+	            else if(d==26 && dados.length==0){
+	              dados.push('UM ','DOIS ','TRÊS ','QUATRO ','CINCO ','SEIS ','MAIS QUE SEIS ');
+	            }
+	            else if(d==27 && dados.length==0){
+	              dados.push('NINGUÉM ','UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
+	            }
+	            else if(d==28 && dados.length==0){
+	              dados.push('UM ','DOIS ','TRÊS ', 'QUATRO ','CINCO ','MAIS QUE CINCO ');
+	            }
+	            else{
+	              if(dados.indexOf(x) == -1){
+	                dados.push(x);
+	              }
+	            }   
 
-            //gera array de valores
-            if(d==6){
-              
-              var age = x.split('/');
-              var hoje = new Date();
-              for(var j = 0; j < age.length; j++){
-                if (j == 0){
-                  var aux = age[j];
-                  age[j] = age[j + 1];
-                  age[j + 1] = aux;
-                }
-              }
-              var nasc = new Date(age);
-              var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
-              var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365.25)); 
+	            //gera array de valores
+	            if(d==6){
+	              
+	            	var age = x.split('/');
+	              	var hoje = new Date();
+	              	for(var j = 0; j < age.length; j++){
+	              		if (j == 0){
+	                  	var aux = age[j];
+	                  	age[j] = age[j + 1];
+	                  	age[j + 1] = aux;
+	                	}
+	              	}
+	              	var nasc = new Date(age);
+	              	var timeDiff = Math.abs(hoje.getTime() - nasc.getTime());
+	              	var diffAge = Math.ceil(timeDiff / (1000 * 3600 * 24 * 365.25)); 
 
-              if(diffAge<21){
-                indice = 0;
-              }
-              else if(diffAge>=21 && diffAge<31){
-                indice = 1;
-              }
-              else if(diffAge>=31 && diffAge<41){
-                indice = 2;
-              }
-              else{
-                indice = 3;
-              }
-            }
-            else if(d==26){
-              if(x=='1')
-                indice = 0;
-              else if(x=='2')
-                indice = 1;
-              else if(x=='3')
-                indice = 2;
-              else if(x=='4')
-                indice = 3;
-              else if(x=='5')
-                indice = 4;
-              else if(x=='6')
-                indice = 5;
-              else
-                indice = 6;
-            }
-            else if(d==27){
-              if(x=='NINGUEM')
-                indice = 0;
-              else if(x=='1')
-                indice = 1;
-              else if(x=='2')
-                indice = 2;
-              else if(x=='3')
-                indice = 3;
-              else if(x=='4')
-                indice = 4;
-              else if(x=='5')
-                indice = 5;
-              else 
-                indice = 6;
-            }
-            else if(d==28){
-              if(x=='1')
-                indice = 0;
-              else if(x=='2')
-                indice = 1;
-              else if(x=='3')
-                indice = 2;
-              else if(x=='4')
-                indice = 3;
-              else if(x=='5')
-                indice = 4;
-              else 
-                indice = 5;
-            }
-            else{ 
-              indice = dados.indexOf(x);
-            }
-            if (valores[indice] == null) {
-                valores[indice] = 0;
-              }
-            valores[indice]++;
-          }
-        }
+	              	if(diffAge<21){
+	               	indice = 0;
+	              	}
+	              	else if(diffAge>=21 && diffAge<31){
+	               	indice = 1;
+	              	}
+	              	else if(diffAge>=31 && diffAge<41){
+	               	indice = 2;
+	              	}
+	              	else{
+	               	indice = 3;
+	              	}
+	            }
+	            else if(d==26){
+	            	if(x=='1')
+	               	indice = 0;
+	              	else if(x=='2')
+	               	indice = 1;
+	              	else if(x=='3')
+	               	indice = 2;
+	              	else if(x=='4')
+	               	indice = 3;
+	              	else if(x=='5')
+	               	indice = 4;
+	              	else if(x=='6')
+	              		indice = 5;
+	              	else
+	               	indice = 6;
+	            }
+	            else if(d==27){
+	            	if(x=='NINGUEM')
+	               	indice = 0;
+	              	else if(x=='1')
+	               	indice = 1;
+	              	else if(x=='2')
+	               	indice = 2;
+	              	else if(x=='3')
+	               	indice = 3;
+	              	else if(x=='4')
+	               	indice = 4;
+	              	else if(x=='5')
+	               	indice = 5;
+	              	else 
+	               	indice = 6;
+	            }
+	            else if(d==28){
+	            	if(x=='1')
+	               	indice = 0;
+	              	else if(x=='2')
+	               	indice = 1;
+	              	else if(x=='3')
+	               	indice = 2;
+	              	else if(x=='4')
+	               	indice = 3;
+	              	else if(x=='5')
+	               	indice = 4;
+	              	else 
+	               	indice = 5;
+	            }
+	            else{ 
+	            	indice = dados.indexOf(x);
+	            }
+	            if (valores[indice] == null) {
+	               valores[indice] = 0;
+	            }
+	            valores[indice]++;
+	         }
+	      }
 
-        //gera array no formato data:value para printar no grafico
-        for(var i = 0; i<valores.length;i++){
-          data.push({
-            name: dados[i],
-            y: valores[i]
-          });
-        }
-        graphic();
-      } 
-      
+	      //gera array no formato data:value para printar no grafico
+	      for(var i = 0; i<valores.length;i++){
+	         data.push({
+	      	   name: dados[i],
+	            y: valores[i]
+	         });
+	      }
+	      graphic();
+	      } 
+	      
 
 
-      function graphic(){
-        var escolhaGrafico = document.querySelectorAll('input[type=radio]:checked')[0].value;
-        nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
-        if (escolhaGrafico == "Pizza") {
-          Highcharts.chart('container', {
-              chart: {
-                  type: 'pie',
-                  options3d: {
-                      enabled: true,
-                      alpha: 45,
-                      beta: 0
-                  }
-              },
-              title: {
-                  text: nomeSerie,            },
-              tooltip: {
-                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-              },
-              plotOptions: {
-                  pie: {
-                      allowPointSelect: true,
-                      cursor: 'pointer',
-                      depth: 35,
-                      dataLabels: {
-                          enabled: true,
-                          format: '{point.name}:{point.y}',
-                      }
-                  }
-              },
-              series: [{
-                  type: 'pie',
-                  name: 'Porcentagem',
-                  data:  data
-              }]
-          });   
+	      function graphic(){
+	      	var escolhaGrafico = document.querySelectorAll('input[type=radio]:checked')[0].value;
+	        	nomeSerie = document.getElementById('colunaescolhida').options[document.getElementById('colunaescolhida').selectedIndex].text;
+	        	if (escolhaGrafico == "Pizza") {
+	         	Highcharts.chart('container', {
+	            	chart: {
+	               	type: 'pie',
+	                  options3d: {
+	                     enabled: true,
+	                     alpha: 45,
+	                     beta: 0
+	                  }
+	              	},
+	              	title: {
+	               	text: nomeSerie,            },
+	              	tooltip: {
+	                  pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+	              	},
+	              	plotOptions: {
+	                  pie: {
+	                     allowPointSelect: true,
+	                     cursor: 'pointer',
+	                     depth: 35,
+	                     dataLabels: {
+	                        enabled: true,
+	                        format: '{point.name}:{point.y}',
+	                     }
+	                  }
+	              	},
+	              	series: [{
+	               	type: 'pie',
+	                  name: 'Porcentagem',
+	                  data:  data
+	              	}]
+	          	});   
 
-        }
-        else if (escolhaGrafico == 'Coluna'){
-          Highcharts.chart('container', {
-              chart: {
-                  type: 'column',
-                  options3d: {
-                      enabled: true,
-                      alpha: 10,
-                      beta: 25,
-                      depth: 70
-                  }
-              },
-              title: {
-                  text: "",
-              },
-              subtitle: {
-                  text: ''
-              },
-              plotOptions: {
-                  column: {
-                      depth: 25
-                  }
-              },
-              xAxis: {
-                  categories: dados,
-                  labels: {
-                      skew3d: true,
-                      style: {
-                          fontSize: '16px'
-                      }
-                  }
-              },
-              yAxis: {
-                  title: {
-                      text: null
-                  }
-              },
-              series: [{
-                  name: [nomeSerie],
-                  data: valores
-              }]
-          });
-        }
-      };
-
-    </script> 
-  </body>
+	        	}
+	        	else if (escolhaGrafico == 'Coluna'){
+	         	Highcharts.chart('container', {
+	            	chart: {
+	                  type: 'column',
+	                  options3d: {
+	                     enabled: true,
+	                     alpha: 10,
+	                     beta: 25,
+	                     depth: 70
+	                  }
+	              	},
+	              	title: {
+	                  text: "",
+	              	},
+	              	subtitle: {
+	                  text: ''
+	              	},
+	              	plotOptions: {
+	                  column: {
+	                     depth: 25
+	                  }
+	              	},
+	              	xAxis: {
+	                  categories: dados,
+	                  labels: {
+	                     skew3d: true,
+	                     style: {
+	                        fontSize: '16px'
+	                     }
+	                  }
+	              	},
+	              	yAxis: {
+	                  title: {
+	                     text: null
+	                  }
+	              	},
+	              	series: [{
+	                  name: [nomeSerie],
+	                  data: valores
+	              	}]
+	          	});
+	        	}
+	      };
+		</script> 
+  	</body>
 </html>
